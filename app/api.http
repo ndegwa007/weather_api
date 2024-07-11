@@ -32,7 +32,20 @@ POST  http://localhost:8000/signup/
 Content-Type: application/json
 
 {
-    "username": "faith267",
-    "password": "stargirl",
-    "email": "faith254@gmail.com"
+    "username": "marto",
+    "password": "ndegz254",
+    "email": "ndegz254@outlook.com"
 }
+
+
+###
+POST http://localhost:8000/login/
+Content-Type:  application/json
+
+{
+    "username": "marto",
+    "password": "ndegz254"
+}
+
+###
+GET  http://localhost:8000/user/me

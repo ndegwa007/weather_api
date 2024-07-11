@@ -5,3 +5,4 @@ class Settings(BaseSettings):
     app_name: str = "weather_plus"
 
 settings = Settings()
+

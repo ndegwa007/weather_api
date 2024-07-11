@@ -1,4 +1,4 @@
-from fastapi import APIRouter,  Depends
+from fastapi import APIRouter,  Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.schemas import User, UserCreate
 from app.Auth.auth import get_user_by_username,  get_password_hash
@@ -13,7 +13,7 @@ router = APIRouter()
 async def signup(user: UserCreate,  db: AsyncSession = Depends(get_db_session)):
     db_user  = await get_user_by_username(user.username, db)
     if db_user:
-        raise HTTPException(status_code=400, message="Username already registered")
+        raise HTTPException(status_code=400,detail="Username already registered")
 
     hashed_password = get_password_hash(user.password)
     
