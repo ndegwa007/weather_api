@@ -1,6 +1,6 @@
 /__pycache__
 /.venv
-app.http
+api.http
 .env
 *.pyc
 weather.db
