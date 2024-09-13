@@ -3,7 +3,7 @@ import app.models as models
 from passlib.context import CryptContext
 from jose import JWTError, jwt 
 from fastapi.security  import OAuth2PasswordBearer
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from sqlalchemy.ext.asyncio import AsyncSession
 from fastapi import Depends, HTTPException, status
 from app.database.session import get_db_session
@@ -35,9 +35,9 @@ def get_password_hash(password):
 def create_access_token(data: dict, expires_delta: timedelta | None = None):
     to_encode = data.copy()
     if expires_delta:
-        expires = datetime.utcnow() + expires_delta
+        expires = datetime.now(timezone.utc) + expires_delta
     else:
-        expires = datatime.utcnow() + timedelta(minutes=15)
+        expires = datetime.now(timezone.utc) + timedelta(minutes=15)
 
     to_encode.update({"exp": expires})
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
@@ -78,7 +78,7 @@ async def get_current_user(token: str = Depends(oauth2_scheme), db: AsyncSession
         if username is None or expiration is None:
             logger.warning("Invalid payload in token")
             raise credentials_exception
-        if datetime.utcnow() > datetime.fromtimestamp(expiration):
+        if datetime.now(timezone.utc) > datetime.fromtimestamp(expiration):
             logger.warning("Token has expired")
             raise credentials_exception
     except JWTError as e:

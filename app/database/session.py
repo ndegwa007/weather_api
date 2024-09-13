@@ -23,9 +23,9 @@ class DataSessionManager:
     async def close(self):
         if self.engine is None:
             raise HTTPException(status_code=404, message="service unavailable!")
-            await self.engine.dispose()
-            self.engine = None
-            self._sessionmaker = None
+        await self.engine.dispose()
+        self.engine = None
+        self._sessionmaker = None
 
     @contextlib.asynccontextmanager
     async def connection(self) -> AsyncIterator[AsyncConnection]:
